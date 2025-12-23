@@ -75,6 +75,7 @@ nav:
       - Development: services/development.md
   - Guides:
       - Getting Started: guides/getting-started.md
+      - Deployment Guide: guides/deployment.md
       - Onboarding: guides/boarding.md
   - Code Snippets:
       - Overview: snippets/index.md
