@@ -15,8 +15,9 @@ This is the official knowledge base for ITMC Cloud, containing documentation, co
 
 ### Prerequisites
 
-- Python 3.11 or higher
+- Python 3.11 or higher (tested with 3.12)
 - pip (Python package manager)
+- Git
 
 ### Local Development
 
@@ -26,18 +27,29 @@ This is the official knowledge base for ITMC Cloud, containing documentation, co
    cd itmc-knowledge-base
    ```
 
-2. **Install dependencies**
+2. **Create a virtual environment (recommended)**
+   ```bash
+   python -m venv .venv
+   
+   # Windows
+   .venv\Scripts\Activate.ps1
+   
+   # Linux/Mac
+   source .venv/bin/activate
+   ```
+
+3. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Run the development server**
+4. **Run the development server**
    ```bash
    mkdocs serve
    ```
 
-4. **Open your browser**
-   Navigate to [http://localhost:8000](http://localhost:8000)
+5. **Open your browser**
+   Navigate to [http://localhost:8000/itmc-knowledge-base/](http://localhost:8000/itmc-knowledge-base/)
 
 The site will automatically reload when you make changes to the documentation.
 
@@ -52,7 +64,8 @@ docs/
 │   ├── cloud-solutions.md     # Cloud services
 │   └── development.md         # Development services
 ├── guides/
-│   └── getting-started.md     # Getting started guide
+│   ├── getting-started.md     # Getting started guide
+│   └── boarding.md            # Onboarding guide
 └── snippets/
     ├── index.md               # Snippets overview
     ├── python.md              # Python code examples
@@ -72,10 +85,17 @@ The built site will be in the `site/` directory.
 
 ## 🚢 Deployment
 
-This site is automatically deployed to GitHub Pages when changes are pushed to the `main` branch. The deployment is handled by GitHub Actions.
+This site is automatically deployed to GitHub Pages when changes are pushed to the `dev` branch. The deployment is handled by GitHub Actions.
+
+### Setup GitHub Pages
+
+1. Go to repository **Settings** → **Pages**
+2. Under **Source**, select **GitHub Actions**
+3. Push changes to `dev` branch - the site will deploy automatically
 
 ### Manual Deployment
 
+If needed, you can deploy manually:
 ```bash
 mkdocs gh-deploy
 ```
@@ -85,8 +105,10 @@ mkdocs gh-deploy
 We welcome contributions! Here's how you can help:
 
 1. **Fork the repository**
-2. **Create a feature branch**
+2. **Clone and create a feature branch**
    ```bash
+   git clone https://github.com/YOUR-USERNAME/itmc-knowledge-base.git
+   cd itmc-knowledge-base
    git checkout -b feature/your-feature-name
    ```
 3. **Make your changes**
@@ -96,13 +118,14 @@ We welcome contributions! Here's how you can help:
    ```
 5. **Commit your changes**
    ```bash
-   git commit -m "Add: your feature description"
+   git add .
+   git commit -m "feat: description of your changes"
    ```
 6. **Push to your fork**
    ```bash
    git push origin feature/your-feature-name
    ```
-7. **Open a Pull Request**
+7. **Open a Pull Request** to the `dev` branch
 
 ### Contribution Guidelines
 
@@ -146,8 +169,31 @@ def example_function():
 - **Dark Mode**: Automatic theme switching
 - **Search**: Full-text search across all documentation
 - **Code Highlighting**: Syntax highlighting for multiple languages
-- **Mermaid Diagrams**: Support for flowcharts and diagrams
+- **Tabs & Admonitions**: Enhanced content presentation
+- **Copy Code Button**: Easy code snippet copying
+- **Edit on GitHub**: Direct links to edit pages
 - **Responsive**: Works on desktop, tablet, and mobile
+
+## 🐛 Troubleshooting
+
+### MkDocs not found
+Make sure you've activated your virtual environment and installed dependencies:
+```bash
+.venv\Scripts\Activate.ps1  # Windows
+pip install -r requirements.txt
+```
+
+### Port already in use
+If port 8000 is already in use, specify a different port:
+```bash
+mkdocs serve -a localhost:8001
+```
+
+### Build errors
+Run the build with verbose output:
+```bash
+mkdocs build --verbose
+```
 
 ## 📋 Requirements
 
