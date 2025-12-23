@@ -174,4 +174,3 @@ For questions or support, please:
 ---
 
 **Made with ❤️ by ITMC Cloud Team**
->>>>>>> 76e44cd (Initial MkDocs knowledge base setup)
