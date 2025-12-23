@@ -2,62 +2,229 @@
 
 ## 📋 Overview
 
-This is the ITMC Knowledge Base, a documentation site built with **MkDocs** and **Material for MkDocs** theme. The site automatically builds and deploys to GitHub Pages whenever changes are pushed to the repository.
+This is the ITMC Knowledge Base, a documentation site built with **MkDocs** and **Material for MkDocs** theme. The site automatically builds and deploys to GitHub Pages whenever changes are pushed to the `dev` branch.
+
+**Live Site:** https://itmc-cloud.github.io/itmc-knowledge-base
+
+---
+
+## 📚 Documentation Guides
+
+Choose the guide that fits your needs:
+
+### 🚀 [SETUP.md](SETUP.md) - Environment Setup
+**For new team members setting up for the first time**
+
+- Prerequisites and installation
+- Clone repository
+- Create virtual environment
+- Install dependencies
+- Verify installation
+- Troubleshooting setup issues
+
+**Start here if:** You're new to the project or setting up on a new machine.
+
+---
+
+### 💻 [DEVELOPMENT.md](DEVELOPMENT.md) - Development Workflow
+**For daily development - running server, adding content**
+
+- Starting the development server
+- Adding new pages and sections
+- Markdown features and syntax
+- Navigation auto-update
+- Testing your changes
+- Working with assets
+- Common development issues
+
+**Use this for:** Day-to-day content creation and updates.
+
+---
+
+### 🚀 [DEPLOYMENT.md](DEPLOYMENT.md) - Deployment & Commit
+**For deploying changes to production**
+
+- Pre-deployment checklist (5 steps)
+- Commit and push workflow
+- Monitoring deployment
+- Troubleshooting failed builds
+- GitHub Pages configuration
+- Quick deployment commands
+
+**Use this when:** You're ready to publish your changes live.
+
+---
+
+---
 
 ## 🏗️ Project Structure
 
 ```
-itmc-wiki/
-├── docs/                    # All documentation content (Markdown files)
-│   ├── index.md            # Homepage
-│   ├── about.md            # About page
-│   ├── guides/             # User guides
-│   ├── services/           # Service documentation
-│   └── snippets/           # Code snippets
-├── site/                   # Generated static site (auto-generated, don't edit)
-├── mkdocs.yml              # MkDocs configuration
-├── requirements.txt        # Python dependencies
-├── update_nav.py           # Navigation auto-update script
-└── README.md               # Project README
+itmc-knowledge-base/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # GitHub Actions deployment
+├── docs/                        # Documentation content (Markdown files)
+│   ├── index.md                # Homepage
+│   ├── about.md                # About page
+│   ├── guides/                 # User guides
+│   ├── services/               # Service documentation
+│   └── snippets/               # Code snippets
+├── site/                        # Generated static site (don't commit)
+├── .venv/                       # Virtual environment (don't commit)
+├── mkdocs.yml                   # MkDocs configuration
+├── requirements.txt             # Python dependencies
+├── update_nav.py                # Navigation auto-update script
+├── SETUP.md                     # Environment setup guide
+├── DEVELOPMENT.md               # Development workflow guide
+├── DEPLOYMENT.md                # Deployment guide
+├── PROJECT.md                   # This file - documentation hub
+└── README.md                    # Repository README
 ```
 
-## 🚀 Getting Started
+---
 
-### Prerequisites
+## ⚡ Quick Start
 
-- **Python 3.11+** (tested with 3.12)
-- **pip** (Python package manager)
-- **Git** for version control
+### First Time Setup
 
-### Initial Setup
+```bash
+# 1. Clone and navigate
+git clone https://github.com/itmc-cloud/itmc-knowledge-base.git
+cd itmc-knowledge-base
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/itmc-cloud/itmc-knowledge-base.git
-   cd itmc-knowledge-base
-   ```
+# 2. Setup virtual environment
+python -m venv .venv
+.venv\Scripts\Activate.ps1  # Windows
+source .venv/bin/activate   # Linux/Mac
 
-2. **Create and activate virtual environment**
-   ```bash
-   # Create virtual environment
-   python -m venv .venv
-   
-   # Activate it (Windows PowerShell)
-   .venv\Scripts\Activate.ps1
-   
-   # Activate it (Windows CMD)
-   .venv\Scripts\activate.bat
-   
-   # Activate it (Linux/Mac)
-   source .venv/bin/activate
-   ```
+# 3. Install dependencies
+pip install -r requirements.txt
+```
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+**Full details:** See [SETUP.md](SETUP.md)
 
-## 🖥️ Running the Development Server
+### Daily Development
+
+```bash
+# 1. Start dev server
+mkdocs serve
+
+# 2. Edit files in docs/
+
+# 3. If you added files, update navigation
+python update_nav.py
+```
+
+**Full details:** See [DEVELOPMENT.md](DEVELOPMENT.md)
+
+### Deploy Changes
+
+```bash
+# 1. Update navigation (if needed)
+python update_nav.py
+
+# 2. Test locally
+mkdocs serve
+
+# 3. Validate build
+mkdocs build --clean --strict
+
+# 4. Commit and push to dev
+git add docs/ mkdocs.yml
+git commit -m "Your message"
+git push origin dev
+```
+
+**Full details:** See [DEPLOYMENT.md](DEPLOYMENT.md)
+
+---
+
+## 🎯 Common Tasks
+
+### I want to add a new page
+
+1. Create `.md` file in `docs/` folder
+2. Write content in Markdown
+3. Run `python update_nav.py`
+4. Check with `mkdocs serve`
+
+**Guide:** [DEVELOPMENT.md - Adding New Content](DEVELOPMENT.md#adding-new-content)
+
+### I want to deploy my changes
+
+1. Follow the 5-step checklist
+2. Push to `dev` branch
+3. Monitor GitHub Actions
+4. Verify on live site
+
+**Guide:** [DEPLOYMENT.md - Pre-Deployment Checklist](DEPLOYMENT.md#pre-deployment-checklist)
+
+### I'm getting build errors
+
+1. Run `mkdocs build --strict` locally
+2. Fix reported errors (broken links, missing files)
+3. Test again until it passes
+
+**Guide:** [DEPLOYMENT.md - If Deployment Fails](DEPLOYMENT.md#if-deployment-fails)
+
+### I need to set up on a new machine
+
+1. Follow SETUP.md step-by-step
+2. Verify with `mkdocs --version`
+3. Test with `mkdocs serve`
+
+**Guide:** [SETUP.md - Initial Setup](SETUP.md#initial-setup)
+
+---
+
+## 📖 Key Concepts
+
+### MkDocs
+Static site generator that converts Markdown files into a documentation website.
+
+### Material Theme
+Modern, responsive design theme for MkDocs with advanced features.
+
+### Auto-Deployment
+GitHub Actions automatically builds and deploys when you push to `dev` branch.
+
+### Navigation Script
+`update_nav.py` scans your `docs/` folder and updates the navigation menu in `mkdocs.yml`.
+
+### Virtual Environment
+Isolated Python environment (`.venv` folder) that keeps project dependencies separate.
+
+---
+
+---
+
+## 🔗 Useful Links
+
+- **Live Site:** https://itmc-cloud.github.io/itmc-knowledge-base
+- **Repository:** https://github.com/itmc-cloud/itmc-knowledge-base
+- **GitHub Actions:** https://github.com/itmc-cloud/itmc-knowledge-base/actions
+- **GitHub Pages Settings:** https://github.com/itmc-cloud/itmc-knowledge-base/settings/pages
+
+---
+
+## 📞 Support & Resources
+
+**Documentation:**
+- [MkDocs Official Docs](https://www.mkdocs.org/)
+- [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
+- [Markdown Guide](https://www.markdownguide.org/)
+- [GitHub Pages Docs](https://docs.github.com/en/pages)
+
+**Need Help?**
+- Check the relevant guide above
+- Contact the ITMC Cloud team
+- Open an issue on GitHub
+- Review GitHub Actions logs for deployment issues
+
+---
+
+**Last Updated:** December 23, 2025
 
 ### Quick Start (if virtual environment is already activated)
 
