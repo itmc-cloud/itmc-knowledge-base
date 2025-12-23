@@ -47,11 +47,31 @@ This is the official knowledge base for ITMC Cloud, containing documentation, co
    ```bash
    mkdocs serve
    ```
+   
+   For access from other machines or containers:
+   ```bash
+   mkdocs serve --dev-addr 0.0.0.0:8000
+   ```
 
 5. **Open your browser**
    Navigate to [http://localhost:8000/itmc-knowledge-base/](http://localhost:8000/itmc-knowledge-base/)
 
 The site will automatically reload when you make changes to the documentation.
+
+### Auto-Update Navigation
+
+When you add new folders or files to the `docs/` directory, run this script to automatically update the navigation menu:
+
+```bash
+python update_nav.py
+```
+
+This will:
+- ✅ Scan all files and folders in `docs/`
+- ✅ Auto-generate the navigation structure in `mkdocs.yml`
+- ✅ Trigger MkDocs to reload (if server is running)
+
+**Example**: After adding `docs/tutorials/docker.md`, just run `python update_nav.py` and it will appear in the navigation automatically!
 
 ## 📖 Documentation Structure
 
