@@ -10,6 +10,18 @@
 
 ---
 
+## 📖 Table of Contents
+
+1. [Pre-Deployment Checklist](#-pre-deployment-checklist)
+2. [Step-by-Step Deployment Process](#-step-by-step-deployment-process)
+3. [Branch Workflow & Pull Requests](#-branch-workflow--pull-requests)
+4. [Automatic Deployment Process](#-automatic-deployment-process)
+5. [Monitoring Deployment](#monitoring-deployment)
+6. [Troubleshooting Cache Issues](#-troubleshooting-cache-issues)
+7. [If Deployment Fails](#-if-deployment-fails)
+
+---
+
 ## ✅ Pre-Deployment Checklist
 
 Complete **ALL 5 steps** before pushing to `dev`:
@@ -144,7 +156,279 @@ git push origin dev
 
 ---
 
-## 🚀 Automatic Deployment Process
+## � Step-by-Step Deployment Process
+
+### Direct Push to Dev (Simple Changes)
+
+**Use this workflow for quick, simple changes:**
+
+```bash
+# Step 1: Make sure you're on dev branch
+git checkout dev
+git pull origin dev
+
+# Step 2: Make your changes
+# Edit files in docs/ folder
+
+# Step 3: Test locally
+mkdocs serve
+
+# Step 4: Validate build
+mkdocs build --clean --strict
+
+# Step 5: Commit and push
+git add docs/
+git commit -m "docs: update getting started guide"
+git push origin dev
+
+# Step 6: Monitor deployment
+# Go to: https://github.com/itmc-cloud/itmc-knowledge-base/actions
+# Wait for build AND deploy jobs to complete (2-3 minutes)
+
+# Step 7: Verify changes
+# Open: https://itmc-cloud.github.io/itmc-knowledge-base/
+# Clear cache: Ctrl+Shift+Delete
+# Hard refresh: Ctrl+F5
+```
+
+**Timeline:**
+- 0:00 - Push to dev
+- 0:10 - GitHub Actions starts
+- 0:45 - Build job completes
+- 1:30 - Deploy job completes
+- 2:00 - Site is live with changes
+- 2:00+ - Clear cache and verify
+
+---
+
+## 🔀 Branch Workflow & Pull Requests
+
+### When to Use Feature Branches
+
+**Use feature branches for:**
+- Complex changes that need review
+- Working on issues
+- Experimenting with new features
+- Multiple people working on different features
+- Changes that might break things
+
+**Don't use feature branches for:**
+- Typo fixes
+- Minor documentation updates
+- Single-line changes
+
+### Feature Branch Workflow (Step-by-Step)
+
+#### Step 1: Create Feature Branch
+
+```bash
+# Make sure dev is up to date
+git checkout dev
+git pull origin dev
+
+# Create and switch to feature branch
+git checkout -b feature/add-docker-guide
+
+# Or if working on an issue:
+git checkout -b fix/issue-123-broken-links
+```
+
+#### Step 2: Make Your Changes
+
+```bash
+# Edit files
+# Add new pages to docs/
+
+# Test locally
+mkdocs serve
+
+# Validate build
+mkdocs build --clean --strict
+```
+
+#### Step 3: Commit to Feature Branch
+
+```bash
+# Stage your changes
+git add docs/guides/docker-guide.md
+git add mkdocs.yml  # If navigation changed
+
+# Commit with clear message
+git commit -m "feat: add comprehensive Docker deployment guide"
+
+# Push feature branch to GitHub
+git push origin feature/add-docker-guide
+```
+
+**⚠️ IMPORTANT:** Pushing to a feature branch does **NOT** trigger deployment!
+- Only pushes to `dev` branch trigger deployment
+- Feature branches are for development only
+
+#### Step 4: Create Pull Request
+
+**On GitHub:**
+
+1. Go to: https://github.com/itmc-cloud/itmc-knowledge-base
+2. You'll see "Compare & pull request" button
+3. Click it
+4. Fill in PR details:
+   - **Base branch:** `dev` (must target dev!)
+   - **Compare branch:** `feature/add-docker-guide`
+   - **Title:** Clear description
+   - **Description:** Explain what changed and why
+
+**Pull Request Template:**
+```markdown
+## Changes
+- Added Docker deployment guide
+- Updated navigation
+- Added code examples
+
+## Testing
+- [x] Tested locally with mkdocs serve
+- [x] Build passes with mkdocs build --strict
+- [x] All links work
+- [x] Code examples tested
+
+## Screenshots (if UI changes)
+[Add screenshots if needed]
+```
+
+#### Step 5: Review Process
+
+**What happens during PR:**
+- ✅ GitHub Actions runs **build job only** (no deployment)
+- ✅ Other team members can review
+- ✅ You can make additional commits if requested
+- ❌ Changes are **NOT deployed yet**
+
+**To add more changes to PR:**
+```bash
+# Still on feature branch
+git add docs/guides/docker-guide.md
+git commit -m "fix: address review comments"
+git push origin feature/add-docker-guide
+
+# Changes automatically appear in PR
+```
+
+#### Step 6: Merge Pull Request
+
+**When PR is approved:**
+
+1. Click "Merge pull request" on GitHub
+2. Choose merge method:
+   - **"Squash and merge"** (recommended) - Combines all commits into one
+   - **"Merge commit"** - Keeps all commits
+   - **"Rebase and merge"** - Rebases commits
+3. Click "Confirm merge"
+4. Delete feature branch (optional but recommended)
+
+**⚠️ DEPLOYMENT TRIGGERS NOW!**
+- Merging to `dev` triggers automatic deployment
+- GitHub Actions runs build + deploy jobs
+- Site updates in 2-3 minutes
+
+#### Step 7: Monitor Merge Deployment
+
+```bash
+# Pull latest dev branch locally
+git checkout dev
+git pull origin dev
+
+# Monitor deployment
+# Go to: https://github.com/itmc-cloud/itmc-knowledge-base/actions
+# Look for workflow run with your merge commit message
+
+# Verify both jobs complete:
+# - ✅ build
+# - ✅ deploy
+
+# Check live site (clear cache first!)
+```
+
+#### Step 8: Clean Up Local Branches
+
+```bash
+# After successful merge, delete feature branch
+git branch -d feature/add-docker-guide
+
+# If you want to delete remote branch too
+git push origin --delete feature/add-docker-guide
+```
+
+### Branch Workflow Summary
+
+**Timeline Example:**
+
+```
+Day 1, 10:00 AM - Create feature branch
+Day 1, 10:30 AM - Make changes
+Day 1, 11:00 AM - Push to feature branch (NO deployment)
+Day 1, 11:05 AM - Create Pull Request
+Day 1, 02:00 PM - Team reviews
+Day 1, 03:00 PM - Address review comments
+Day 1, 04:00 PM - Merge to dev (DEPLOYMENT TRIGGERS!)
+Day 1, 04:03 PM - Site is live with changes
+```
+
+### Common Branch Scenarios
+
+#### Scenario 1: Simple Documentation Update
+```bash
+# Direct push to dev (no PR needed)
+git checkout dev
+git add docs/about.md
+git commit -m "docs: update company description"
+git push origin dev
+# ✅ Deploys immediately
+```
+
+#### Scenario 2: New Feature with Review
+```bash
+# Use feature branch + PR
+git checkout -b feature/new-section
+# Make changes
+git push origin feature/new-section
+# Create PR → Review → Merge to dev
+# ✅ Deploys after merge
+```
+
+#### Scenario 3: Fixing an Issue
+```bash
+# Use issue branch
+git checkout -b fix/issue-45-broken-link
+# Fix the issue
+git push origin fix/issue-45-broken-link
+# Create PR with "Fixes #45" in description
+# Review → Merge to dev
+# ✅ Deploys after merge + closes issue #45
+```
+
+### Key Points About Branches
+
+**✅ Deployment ONLY happens when:**
+- Code is pushed directly to `dev` branch
+- A PR is merged into `dev` branch
+- Manual workflow dispatch is triggered on `dev` branch
+
+**❌ Deployment DOES NOT happen when:**
+- You push to a feature branch
+- You create a Pull Request (builds only, no deploy)
+- You push to any branch other than `dev`
+
+**🔄 Workflow file checks:**
+```yaml
+# From .github/workflows/deploy.yml
+deploy:
+  needs: build
+  if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+  # ☝️ This means deploy ONLY runs on push to dev
+```
+
+---
+
+## �🚀 Automatic Deployment Process
 
 ### What Happens After You Push
 
