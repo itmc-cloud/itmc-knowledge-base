@@ -178,6 +178,14 @@ https://github.com/itmc-cloud/itmc-knowledge-base/actions
 - Shows your commit message
 - Status: 🟡 In progress / ✅ Success / ❌ Failed
 
+**⚠️ CRITICAL: Verify BOTH jobs complete!**
+- Click on your workflow run
+- Check that **TWO jobs** are listed:
+  - ✅ **build** - Builds the MkDocs site
+  - ✅ **deploy** - Deploys to GitHub Pages
+- **Both must show success** for changes to be live
+- If only "build" shows, the site won't update!
+
 **3. Click to see details:**
 - View each step's progress
 - See build logs
@@ -187,17 +195,91 @@ https://github.com/itmc-cloud/itmc-knowledge-base/actions
 - Build: ~30-45 seconds
 - Deploy: ~30-45 seconds
 - **Total: ~2-3 minutes**
+- **⚠️ Wait for deploy job to complete before viewing site!**
 
 **5. Verify on live site:**
 ```
 https://itmc-cloud.github.io/itmc-knowledge-base
 ```
 
-Hard refresh browser: `Ctrl+F5` (Windows) or `Cmd+Shift+R` (Mac)
+**🔑 IMPORTANT - Clear Browser Cache FIRST:**
+
+**Method 1: Clear Cache (Recommended):**
+1. Press `Ctrl + Shift + Delete` (Windows) or `Cmd + Shift + Delete` (Mac)
+2. Select "Cached images and files"
+3. Click "Clear data"
+4. Refresh page with `Ctrl + F5`
+
+**Method 2: Use Incognito/Private Window:**
+- Chrome/Edge: `Ctrl + Shift + N`
+- Firefox: `Ctrl + Shift + P`
+- This bypasses all cache
+
+**Method 3: Hard Refresh:**
+- Windows: `Ctrl + F5` or `Ctrl + Shift + R`
+- Mac: `Cmd + Shift + R`
+
+**⚠️ If changes don't appear after clearing cache:**
+See "Troubleshooting Cache Issues" section below.
 
 ---
 
-## 🛑 If Deployment Fails
+## � Troubleshooting Cache Issues
+
+### Problem: Site Still Shows Old Content
+
+Even after successful deployment, you might see old content due to aggressive caching.
+
+**Symptoms:**
+- GitHub Actions shows ✅ success for both build and deploy
+- Local build is correct (`mkdocs build`)
+- Live site shows outdated content
+
+**Solution 1: Force Fresh Deployment**
+
+```bash
+# This triggers a completely new deployment cycle
+git commit --allow-empty -m "trigger: force fresh deployment"
+git push origin dev
+
+# Then wait 2-3 minutes and clear browser cache
+```
+
+**Solution 2: Clear All Cache Levels**
+
+```bash
+# 1. Clear browser cache (see steps above)
+# 2. Try multiple browsers
+# 3. Use incognito mode
+# 4. Wait 5-10 minutes for CDN propagation
+```
+
+**Solution 3: Verify GitHub Pages Settings**
+
+Go to: https://github.com/itmc-cloud/itmc-knowledge-base/settings/pages
+
+Confirm:
+- **Source:** Must be set to "GitHub Actions" (NOT "Deploy from a branch")
+- If it's set to branch deployment, change it to "GitHub Actions"
+
+### Best Practices to Avoid Cache Issues
+
+**✅ DO:**
+1. Always wait for BOTH build AND deploy jobs to complete
+2. Clear browser cache before viewing changes
+3. Use incognito mode for immediate verification
+4. Allow 2-3 minutes for full propagation
+5. Check GitHub Actions deploy job status
+
+**❌ DON'T:**
+1. View site immediately after pushing (wait for deploy!)
+2. Assume build success = deployment success (check deploy job!)
+3. Skip cache clearing steps
+4. Panic if changes don't appear instantly
+
+---
+
+## �🛑 If Deployment Fails
 
 ### Step 1: Check the Error
 
