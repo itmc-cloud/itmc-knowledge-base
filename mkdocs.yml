@@ -7,6 +7,18 @@ repo_name: 'itmc-cloud/itmc-knowledge-base'
 repo_url: 'https://github.com/itmc-cloud/itmc-knowledge-base'
 edit_uri: 'edit/dev/docs/'
 
+# Specify docs directory explicitly
+docs_dir: docs
+site_dir: site
+
+# Exclude files that shouldn't be in the site
+exclude_docs: |
+  README.md
+  SETUP.md
+  DEVELOPMENT.md
+  DEPLOYMENT.md
+  PROJECT.md
+
 theme:
   name: material
   palette:
